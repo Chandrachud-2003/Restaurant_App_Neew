@@ -130,29 +130,7 @@ public class MainActivity extends AppCompatActivity {
        //
 
 
-      /*  db.collection("Restaurant").document().get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            String name = documentSnapshot.getString("name");
-                            //String description = documentSnapshot.getString(KEY_DESCRIPTION);
-
-                            //Map<String, Object> note = documentSnapshot.getData();
-
-                            nameView.setText(name);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d("TAG", e.toString());
-                    }
-                });
+      /*
 
 */
 
@@ -258,8 +236,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 4:
             {
-                //Intent intent = new Intent(MainActivity.this, SearchClass.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, profile.class);
+                startActivity(intent);
                 break;
             }
 
