@@ -90,6 +90,6 @@ public class registration3 extends AppCompatActivity {
 
     }
 
-        }
+}
 
 

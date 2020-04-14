@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         nameView = findViewById(R.id.name_view);
-       verify = findViewById(R.id.verify_view);
+        verify = findViewById(R.id.verify_view);
         if(user.isEmailVerified())
         {
             verify.setVisibility(View.GONE);
@@ -127,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
 
         String displayname = user.getDisplayName();
         nameView.setText(displayname);
-       //
+        //
 
 
-      /*
+        /*
 
-*/
+         */
 
         //Sliding Root Nav
 
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             }
             case 2:
             {
-               // Intent intent = new Intent(MainActivity.this, SearchClass.class);
+                // Intent intent = new Intent(MainActivity.this, SearchClass.class);
                 //startActivity(intent);
                 break;
             }

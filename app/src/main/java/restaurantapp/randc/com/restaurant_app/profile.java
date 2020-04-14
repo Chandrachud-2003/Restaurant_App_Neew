@@ -140,10 +140,10 @@ public class profile extends AppCompatActivity {
     }
 
     private void openGallery() {
-     //   Intent intent = new Intent();
-      //  intent.setAction(intent.ACTION_GET_CONTENT);
-       // intent.setType("image/*");
-       // startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        //   Intent intent = new Intent();
+        //  intent.setAction(intent.ACTION_GET_CONTENT);
+        // intent.setType("image/*");
+        // startActivityForResult(intent, PICK_IMAGE_REQUEST);
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1,1)
@@ -164,14 +164,14 @@ public class profile extends AppCompatActivity {
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-           if(resultCode== RESULT_OK) {
-               lbar.setTitle("Uploading Image");
-               lbar.setMessage("Please wait,your profile picture is updating..");
+            if(resultCode== RESULT_OK) {
+                lbar.setTitle("Uploading Image");
+                lbar.setMessage("Please wait,your profile picture is updating..");
                 lbar.setCanceledOnTouchOutside(false);
                 lbar.show();
-               Uri resultUri  = result.getUri();
-            uploadImageToFirebase(resultUri);
-           }
+                Uri resultUri  = result.getUri();
+                uploadImageToFirebase(resultUri);
+            }
         }
     }
 
@@ -187,7 +187,7 @@ public class profile extends AppCompatActivity {
                     if(task.isSuccessful()) {
                         Toast.makeText(profile.this, "Uploded", Toast.LENGTH_LONG);
 
-                                task.getResult().getMetadata().getReference().getDownloadUrl()
+                        task.getResult().getMetadata().getReference().getDownloadUrl()
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {

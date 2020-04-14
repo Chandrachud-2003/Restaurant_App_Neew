@@ -24,6 +24,7 @@
 
     <color name="white">#FFFFFF</color>
 
+
     <color name="bgBackSideColor">#f4f0ff</color>
     <color name="bgTitleLeft">#594691</color>
     <color name="bgTitleRight">#ffffff</color>
@@ -50,9 +51,23 @@
     <color name="greenBack">#416C6E</color>
     <color name="greenText">#89B6B7</color>
 
+    <color name="white2">#ECF0F1 </color>
+
 
     <color name="colorPaleBlue">#436892</color>
     <color name="colorPaleBlueLight">#c3d3e6</color>
+
+    <color name="blueWebsite">#0000cc</color>
+
+    <color name="blueviolet">#8A2BE2</color>
+
+    <color name="phoneColor">#018B95</color>
+    <color name="whatsappColor">#1AD13F</color>
+    <color name="smsColor">#6F2677</color>
+    <color name="facebookColor">#3A559B</color>
+    <color name="emailColor">#F9C627</color>
+
+    <color name="button1">#305F5F</color>
 
 
 </resources>

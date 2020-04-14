@@ -74,7 +74,7 @@ public class registration1 extends AppCompatActivity {
                 else if(!(password.equals(passwordConfirm.getText().toString().trim())))
                 {
                     Toast.makeText(registration1.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
-                        passwordConfirm.setError("Confirm Password again");
+                    passwordConfirm.setError("Confirm Password again");
 
                 }
 
@@ -102,7 +102,7 @@ public class registration1 extends AppCompatActivity {
 
                                         user.updateProfile(profileUpdates);
 
-                                       // FirebaseDatabase.
+                                        // FirebaseDatabase.
 //                                  FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(registration1.this, "Success", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(registration1.this, registration2.class);
@@ -114,7 +114,7 @@ public class registration1 extends AppCompatActivity {
                                         // If sign in fails, display a message to the user.
                                         Log.e("TAG", "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(registration1.this, "Email does not exist. Please enter valid email", Toast.LENGTH_SHORT).show();
-                                            emailView.setError("Enter Valid Email");
+                                        emailView.setError("Enter Valid Email");
 
                                     }
                                 }
