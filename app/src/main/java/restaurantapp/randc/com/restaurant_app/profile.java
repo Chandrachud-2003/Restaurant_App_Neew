@@ -3,7 +3,7 @@ package restaurantapp.randc.com.restaurant_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -37,6 +37,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.jackandphantom.blurimage.BlurImage;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -55,8 +56,8 @@ public class profile extends AppCompatActivity {
     private StorageReference storageReference;
     private StorageTask mUpload;
     private ProgressDialog lbar;
-    private CircleImageView userProfileImage;
-
+    private ImageView userProfileImage;
+    private ImageView blurUserProfileImage;
     private static final int PICK_IMAGE_REQUEST = 1;
 
 
@@ -68,12 +69,13 @@ public class profile extends AppCompatActivity {
         emailView = findViewById(R.id.emailView);
         phnoView = findViewById(R.id.phoneView);
         AddressView = findViewById(R.id.addressView);
-        nameView = findViewById(R.id.tv_name);
-        userProfileImage = findViewById(R.id.set_profile_image);
+      //  nameView = findViewById(R.id.tv_name);
+        userProfileImage = findViewById(R.id.profileImageDisplay);
+        blurUserProfileImage = findViewById(R.id.BlurProfileImageDisplay);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
         emailView.setText(user.getEmail());
-        nameView.setText(user.getDisplayName());
+//        nameView.setText(user.getDisplayName());
         lbar = new ProgressDialog(this);
 
 
@@ -90,6 +92,7 @@ public class profile extends AppCompatActivity {
                             String name = documentSnapshot.getString("Name");
                             String url = documentSnapshot.getString("Url");
                             Picasso.get().load(url).into(userProfileImage);
+                     
                             phnoView.setText(phno);
                             AddressView.setText(documentSnapshot.getString("Address"));
 

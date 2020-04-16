@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,13 +58,15 @@ public class displayInfoActivity extends AppCompatActivity {
     private RelativeLayout vegLayout;
     private RelativeLayout dairyLayout;
     private RelativeLayout grainLayout;
+    private int state;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_info_2);
-
+        state = 0;
         iconView = findViewById(R.id.profileImageDisplay);
 
         dairyRecycler = findViewById(R.id.recycler_dairy);
@@ -86,31 +90,47 @@ public class displayInfoActivity extends AppCompatActivity {
         final CircleMenuView menu = (CircleMenuView) findViewById(R.id.circle_menu);
 
 
+
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(state ==0) {
 
-                menu.setVisibility(View.VISIBLE);
+                    menu.setVisibility(View.VISIBLE);
+                    menu.open(true);
+                    state = 1;
 
+
+
+                }
+                if(state == 1) {
+                    menu.close(true);
+                    state = 0;
+                }
                 menu.setEventListener(new CircleMenuView.EventListener() {
                     @Override
                     public void onMenuOpenAnimationStart(@NonNull CircleMenuView view) {
                         Log.d("D", "onMenuOpenAnimationStart");
+
                     }
 
                     @Override
                     public void onMenuOpenAnimationEnd(@NonNull CircleMenuView view) {
                         Log.d("D", "onMenuOpenAnimationEnd");
+                        //menu.close(false);
                     }
 
                     @Override
                     public void onMenuCloseAnimationStart(@NonNull CircleMenuView view) {
                         Log.d("D", "onMenuCloseAnimationStart");
+
                     }
 
                     @Override
                     public void onMenuCloseAnimationEnd(@NonNull CircleMenuView view) {
                         Log.d("D", "onMenuCloseAnimationEnd");
+                        menu.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -128,7 +148,7 @@ public class displayInfoActivity extends AppCompatActivity {
             }
         });
 
-        BlurImage.with(getApplicationContext()).load(R.drawable.restaurant_sample).intensity(20).Async(true).into(iconView);
+        BlurImage.with(getApplicationContext()).load(R.drawable.restaurant_sample).intensity(20).Async(false).into(iconView);
 
         mFruitItemsList = new displayItem[] {
 
@@ -285,6 +305,11 @@ public class displayInfoActivity extends AppCompatActivity {
 
 
 
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        state = 0;
     }
 
     /*private void switchText()
