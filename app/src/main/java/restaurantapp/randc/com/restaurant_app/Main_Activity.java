@@ -1,34 +1,26 @@
 package restaurantapp.randc.com.restaurant_app;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.ramotion.foldingcell.FoldingCell;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -36,21 +28,8 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//485
-//import com.ramotion.foldingcell.examples.R;
+public class Main_Activity extends AppCompatActivity {
 
-
-/**
- * Example of using Folding Cell with ListView and ListAdapter
- */
-public class MainActivity extends AppCompatActivity {
-
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private TextView nameView;
-    private TextView verify;
-    private Button settingsButton;
-    private Button logoutButton;
 
     private SlidingRootNav slidingRootNav;
 
@@ -63,78 +42,65 @@ public class MainActivity extends AppCompatActivity {
     private String[] screenTitles;
     private Drawable[] screenIcons;
 
-
-
     private ImageButton menuButton;
+    private ImageButton searchButton;
+
+    private Button settingsButton;
+
+    private  RecyclerView filterView;
+
+    private Button logoutButton;
+
+    private ArrayList<filterItem> filterItemList;
+
+    private RecyclerView.LayoutManager RecyclerViewLayoutManager;
+
+    private LinearLayoutManager HorizontalLayout;
+    private ListView theListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main_layout);
 
-        // get our list view
-        ListView theListView = findViewById(R.id.mainListView);
+
+        filterView = findViewById(R.id.filterView);
         menuButton = findViewById(R.id.menuButton);
+        searchButton = findViewById(R.id.searchButton);
 
+        theListView = findViewById(R.id.mainListView);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        RecyclerViewLayoutManager
+                = new LinearLayoutManager(
+                getApplicationContext());
 
-        nameView = findViewById(R.id.name_view);
-        verify = findViewById(R.id.verify_view);
-        if(user.isEmailVerified())
-        {
-            verify.setVisibility(View.GONE);
-        }
+        filterItemList = new ArrayList<filterItem>();
 
-
+        filterItemList.add(new filterItem("Nearby", R.drawable.icons8_nearby,false));
+        filterItemList.add(new filterItem("Orders", R.drawable.icons8_mostorders,false));
+        filterItemList.add(new filterItem("Followers", R.drawable.icons8_person,false));
+        filterItemList.add(new filterItem("Likes", R.drawable.icons8_likes2,false));
+        filterItemList.add( new filterItem("Verified", R.drawable.icons8_verified_account,false));
 
         final ArrayList<Item> items = Item.getTestingList();
 
-        items.get(0).setRequestBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
-        final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items);
-
-        // add default btn handler for each request btn on each item if custom handler not found
-        adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "DEFAULT HANDLER FOR ALL BUTTONS", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // set elements to adapter
-        theListView.setAdapter(adapter);
-
-        // set on click event listener to list view
-        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                // toggle clicked cell state
-                ((FoldingCell) view).toggle(false);
-                // register in adapter that state for selected cell is toggled
-                adapter.registerToggle(pos);
-            }
-        });
 
 
 
-        String displayname = user.getDisplayName();
-        nameView.setText(displayname);
-        //
+        filterAdapter1 filterAdapter1 = new filterAdapter1(filterItemList);
+
+        HorizontalLayout
+                = new LinearLayoutManager(
+                Main_Activity.this,
+                LinearLayoutManager.HORIZONTAL,
+                false);
 
 
-        /*
+        filterView.setLayoutManager(HorizontalLayout);
 
-         */
+        // Set adapter on recycler view
+        filterView.setAdapter(filterAdapter1);
 
-        //Sliding Root Nav
 
         slidingRootNav = new SlidingRootNavBuilder(this)
 
@@ -158,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         adapter2.setListener(new DrawerAdapter.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
-                MainActivity.this.onItemSelected(position);
+                Main_Activity.this.onItemSelected(position);
             }
         });
 
@@ -186,15 +152,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items);
 
+        // add default btn handler for each request btn on each item if custom handler not found
+        adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "DEFAULT HANDLER FOR ALL BUTTONS", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        // set elements to adapter
+        theListView.setAdapter(adapter);
 
+        // set on click event listener to list view
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                // toggle clicked cell state
+                ((FoldingCell) view).toggle(false);
+                // register in adapter that state for selected cell is toggled
+                adapter.registerToggle(pos);
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Main_Activity.this, SearchClass.class);
+                startActivity(intent);
+            }
+        });
 
 
 
 
 
     }
+
     @Override
     public void onBackPressed() {
         // Disabling back button for current activity
@@ -215,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             }
             case 1:
             {
-                Intent intent = new Intent(MainActivity.this, SearchClass.class);
+                Intent intent = new Intent(Main_Activity.this, SearchClass.class);
                 startActivity(intent);
                 break;
             }
@@ -236,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
             case 4:
             {
-                Intent intent = new Intent(MainActivity.this, profile.class);
+                Intent intent = new Intent(Main_Activity.this, profile.class);
                 startActivity(intent);
                 break;
             }
@@ -279,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Main_Activity.this);
         builder.setCancelable(true);
         builder.setTitle("Log Out");
         builder.setMessage("Are sure you want to log out?");
@@ -289,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(getApplicationContext(), "Signed Out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, loginpage.class);
+                Intent intent = new Intent(Main_Activity.this, loginpage.class);
                 startActivity(intent);
 
             }
@@ -304,5 +300,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-}
 
+
+
+
+}

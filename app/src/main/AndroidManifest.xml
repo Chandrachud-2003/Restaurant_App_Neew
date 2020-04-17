@@ -16,7 +16,7 @@
         <activity android:name=".SearchClass" />
         <activity android:name=".resetpassword" />
         <activity android:name=".registration1" />
-        <activity android:name=".profileClass">
+        <activity android:name=".Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +26,7 @@
         <activity android:name=".registration2" />
         <activity android:name=".registration3" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".profileClass"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

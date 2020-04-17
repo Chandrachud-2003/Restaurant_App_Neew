@@ -125,7 +125,6 @@
     </mehdi.sakout.fancybuttons.FancyButton>
 
     <ImageButton
-        android:id="@+id/menuButton"
         android:layout_width="61dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/mainListView"

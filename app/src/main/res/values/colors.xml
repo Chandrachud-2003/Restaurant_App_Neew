@@ -71,5 +71,7 @@
 
     <color name="crimson">#DC143C</color>
 
+    <color name="back_filter">#305F5F</color>
+
 
 </resources>
