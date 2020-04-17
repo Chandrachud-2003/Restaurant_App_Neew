@@ -1,5 +1,5 @@
 package restaurantapp.randc.com.restaurant_app;
-
+//This is a comment
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
